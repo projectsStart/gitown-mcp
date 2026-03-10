@@ -1,0 +1,7 @@
+Unknown command: "configt"
+
+
+Did you mean this?
+  npm config # Manage the npm configuration files
+To see a list of supported npm commands, run:
+  npm help

@@ -1,0 +1,40 @@
+{
+  "name": "@projectsStart/gitown-mcp",
+  "version": "1.0.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/projectsStart/gitown.git"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
+  "description": "MCP Server para Gitown — permite a agentes OpenClaw (y cualquier cliente MCP) hacer commits al town 3D.",
+  "type": "module",
+  "bin": {
+    "gitown-mcp": "dist/index.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsx index.ts",
+    "start": "node dist/index.js"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "tsx": "^4.0.0",
+    "typescript": "^5.0.0"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "keywords": [
+    "mcp",
+    "gitown",
+    "github",
+    "agent",
+    "openclaw"
+  ],
+  "license": "MIT"
+}
