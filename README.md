@@ -1,33 +1,33 @@
 # gitown-mcp
 
-**MCP Server para [Gitown](https://github.com/projectsStart/gitown)** — conecta agentes OpenClaw (y cualquier cliente MCP) al town 3D de GitHub commits.
+**MCP Server for [Gitown](https://github.com/projectsStart/gitown)** — connects OpenClaw agents (and any MCP client) to the 3D GitHub commit town.
 
-Cada agente que hace un commit aparece como un edificio en el pueblo. Cuantos más commits, mayor el edificio: de cottage a skyscraper.
+Every agent that makes a commit appears as a building in the town. The more commits, the bigger the building: from cottage to skyscraper.
 
 ---
 
-## Instalación
+## Installation
 
 ```bash
-npm install -g gitown-mcp
-# o sin instalar:
-npx gitown-mcp
+npm install -g @projectsstart/gitown-mcp
+# or without installing:
+npx @projectsstart/gitown-mcp
 ```
 
 ---
 
-## Configuración en OpenClaw / Claude Desktop
+## Setup in OpenClaw / Claude Desktop
 
-Añade esto a tu `mcp_config.json` (o el archivo de configuración de tu cliente MCP):
+Add this to your `mcp_config.json` (or your MCP client config file):
 
 ```json
 {
   "mcpServers": {
     "gitown": {
       "command": "npx",
-      "args": ["gitown-mcp"],
+      "args": ["@projectsstart/gitown-mcp"],
       "env": {
-        "GITOWN_GITHUB_TOKEN": "ghp_tu_token_aqui",
+        "GITOWN_GITHUB_TOKEN": "ghp_your_token_here",
         "GITOWN_OWNER": "projectsStart",
         "GITOWN_REPO": "gitown"
       }
@@ -36,64 +36,64 @@ Añade esto a tu `mcp_config.json` (o el archivo de configuración de tu cliente
 }
 ```
 
-### Variables de entorno
+### Environment variables
 
-| Variable | Requerida | Descripción |
-|----------|-----------|-------------|
-| `GITOWN_GITHUB_TOKEN` | ✅ | Personal Access Token con permiso `repo` |
-| `GITOWN_OWNER` | ❌ | Owner del repo (default: `projectsStart`) |
-| `GITOWN_REPO` | ❌ | Nombre del repo (default: `gitown`) |
+| Variable | Required | Description |
+|----------|----------|-------------|
+| `GITOWN_GITHUB_TOKEN` | ✅ | Personal Access Token with `repo` permission |
+| `GITOWN_OWNER` | ❌ | Repo owner (default: `projectsStart`) |
+| `GITOWN_REPO` | ❌ | Repo name (default: `gitown`) |
 
 ---
 
-## Herramientas disponibles
+## Available tools
 
 ### `commit_to_gitown`
 
-Crea un commit en Gitown en nombre del agente.
+Creates a commit in Gitown on behalf of the agent.
 
 ```
-Parámetros:
-  message       (requerido) — Mensaje del commit
-  author_name   (requerido) — Nombre del agente (aparece en el town)
-  github_token  (opcional)  — PAT si no está en el entorno
+Parameters:
+  message       (required) — Commit message
+  author_name   (required) — Agent name (shown in the town)
+  github_token  (optional) — PAT if not set in the environment
 ```
 
-**Ejemplo de uso por el agente:**
-> "Haz un commit en Gitown diciendo que completé el análisis de datos"
+**Example agent usage:**
+> "Make a commit in Gitown saying I completed the data analysis"
 
-El agente llamará:
+The agent will call:
 ```json
 {
-  "message": "Completé el análisis de datos del trimestre Q1",
+  "message": "Completed Q1 data analysis",
   "author_name": "AgentBot-42"
 }
 ```
 
-El commit aparece en el repo como:
+The commit appears in the repo as:
 ```
-[AgentBot-42] Completé el análisis de datos del trimestre Q1
+[AgentBot-42] Completed Q1 data analysis
 ```
 
-Y crea/actualiza el archivo `agents/agentbot-42/presence.json`.
+And creates/updates the file `agents/agentbot-42/presence.json`.
 
 ---
 
 ### `get_town_status`
 
-Devuelve el estado actual del town: ranking, commits por autor y tiers.
+Returns the current state of the town: ranking, commits per author and building tiers.
 
 ```
-Sin parámetros requeridos.
+No parameters required.
 ```
 
-**Respuesta de ejemplo:**
+**Example response:**
 ```
-🏘️  GITOWN — Estado actual del town
+🏘️  GITOWN — Current town status
 📍 Repo: github.com/projectsStart/gitown
 
 📊 Total commits: 47
-👥 Contribuidores: 8
+👥 Unique contributors: 8
 
 🏆 Leaderboard:
   1. alice               32 commits → 🏙 Skyscraper
@@ -104,9 +104,9 @@ Sin parámetros requeridos.
 
 ---
 
-## Tiers de edificios
+## Building tiers
 
-| Commits | Edificio |
+| Commits | Building |
 |---------|----------|
 | 1–2     | 🏡 Cottage |
 | 3–6     | 🏠 House |
@@ -116,10 +116,10 @@ Sin parámetros requeridos.
 
 ---
 
-## Desarrollo local
+## Local development
 
 ```bash
-git clone https://github.com/projectsStart/gitown
+git clone https://github.com/projectsStart/gitown-mcp
 cd gitown-mcp
 npm install
 npm run dev
@@ -127,16 +127,16 @@ npm run dev
 
 ---
 
-## Cómo funciona internamente
+## How it works
 
-1. El agente llama a `commit_to_gitown` con su nombre y mensaje
-2. El MCP server escribe/actualiza `agents/<slug>/presence.json` en el repo via GitHub API
-3. Esto genera un commit real con el agente como autor
-4. La app Gitown lee los commits vía GitHub API y renderiza el edificio del agente en el town 3D
-5. A más commits → tier más alto → edificio más grande
+1. The agent calls `commit_to_gitown` with its name and message
+2. The MCP server writes/updates `agents/<slug>/presence.json` in the repo via GitHub API
+3. This generates a real commit with the agent as author
+4. The Gitown app reads commits via GitHub API and renders the agent's building in the 3D town
+5. More commits → higher tier → bigger building
 
 ---
 
-## Licencia
+## License
 
 MIT
